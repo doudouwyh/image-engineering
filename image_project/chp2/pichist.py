@@ -21,7 +21,17 @@ def get_counts(img):
     return counts
 
 def hist_enhance(image):
-    pass
+    counts = get_counts(image)
+    keys = counts.keys()
+    cdf = counts.values()/(np.sum(counts.values())*1.0)
+    size =  len(keys)-1
+    ndatas = {}
+    for i in range(size):
+        ndatas.append(int(size * cdf[i] + 0.5))
+
+    newdata = np.array(ndatas).reshape(ndatas.shape)
+
+    print newdata
 
 
 def hist_enhance_test():
@@ -29,17 +39,9 @@ def hist_enhance_test():
     # Image.fromarray(data.astype(np.uint8)).show("origin")
     # print data
 
-    counts = get_counts(data)
-    keys = counts.keys()
-    cdf = counts.values()/(np.sum(counts.values())*1.0)
-    size =  len(keys)-1
-    ndatas = []
-    for i in range(size):
-        ndatas.append(int(size * cdf[i] + 0.5))
+    hist_enhance(data)
 
-    newdata = np.array(ndatas).reshape(data.shape)
 
-    print newdata
 
 
 
