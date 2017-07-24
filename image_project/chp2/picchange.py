@@ -2,7 +2,7 @@
     picture change: trnasfer ,scaling ,rotate,cut
 '''
 
-import Image
+from PIL import Image
 import numpy as np
 
 
