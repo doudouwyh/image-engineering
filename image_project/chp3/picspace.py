@@ -66,8 +66,8 @@ def hfe_filter(image,A):
     um = image - smoothimg
 
     #high-frequency emphasis
-
-
+    newdata = [x*A for x in um] + image
+    return newdata
 
 def template_conv_test():
     data = get_image_data("../pic/lena.jpg")
