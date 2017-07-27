@@ -1,5 +1,5 @@
 '''
-    frequence domain
+    frequence spacial
 '''
 
 import matplotlib.pyplot as plt
@@ -10,7 +10,6 @@ from common.common import *
 
 def fft_test():
     data = get_image_data("../pic/lena.jpg")
-    print data
 
     plt.subplot(2,2,1)
     plt.title('origin')
@@ -29,12 +28,11 @@ def fft_test():
 
     plt.subplot(2, 2, 4)
     ifft = np.fft.ifft2(fft)
-    print ifft.real
     plt.title('ifft')
     plt.imshow(np.abs(ifft), cmap=plt.get_cmap('gray'))
 
-
-    plt.savefig('fourier.jpg')
+    #plt.savefig('fourier.jpg')
+    plt.show()
 
 
 if __name__ == '__main__':

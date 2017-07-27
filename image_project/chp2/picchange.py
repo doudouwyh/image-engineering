@@ -53,7 +53,7 @@ def tranfser_test():
 def scaling_test():
     data = get_image_data("../pic/lena.jpg")
 
-    width,height = data.shape
+    height,width = data.shape
 
     #scaling 2: x->2*x,y->y*2
     new_data = np.zeros((2*width,2*height))
@@ -98,7 +98,7 @@ def rotate_test():
 def cut_test():
     data = get_image_data("../pic/lena.jpg")
 
-    width,height = data.shape
+    height,width = data.shape
 
     new_data_x = np.zeros(data.shape)
     new_data_y = np.zeros(data.shape)

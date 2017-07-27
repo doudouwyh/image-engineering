@@ -56,7 +56,7 @@ def img_contrast2(img,fun,c):
 
 def img_contrast3(img,fun,c,r):
     newdata = np.zeros(img.shape)
-    width,height = img.shape
+    height,width = img.shape
     for i in range(width):
         for j in range(height):
             newdata[i,j] = fun(img[i,j],c,r)
@@ -105,7 +105,8 @@ def DRC_test():
 
 def gama_correct_test():
     data = get_image_data("../pic/lena.jpg")
-    newdata = img_contrast3(data,gama_correct,c=3,r=2.5)
+    newdata = img_contrast3(data,gama_correct,c=0.5,r=1.5)
+    print newdata
 
     plt.subplot(1,2,1)
     plt.title("origin")
@@ -117,8 +118,8 @@ def gama_correct_test():
     plt.show()
 
 if __name__ == '__main__':
-    pic_contrast_test()
-    pic_contrast_test2()
-    DRC_test()
-    gama_correct_test()
+    #pic_contrast_test()
+    # pic_contrast_test2()
+    # DRC_test()
+     gama_correct_test()
 
