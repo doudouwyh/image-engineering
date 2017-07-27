@@ -1,16 +1,10 @@
 '''
     gray mapping: reverse,enhance,DRC,GAMA_CORRECT
 '''
-
-from PIL import Image
-import numpy as np
-
-
-def get_image_data(filename):
-    im = Image.open(filename)
-    data = im.getdata()
-    data = np.array(data,'float').reshape(im.size)
-    return data
+import matplotlib.pyplot as plt
+import sys
+sys.path.append("..")
+from common.common import *
 
 
 def  reverse(x):
@@ -70,32 +64,57 @@ def img_contrast3(img,fun,c,r):
 
 def pic_contrast_test():
     data = get_image_data("../pic/lena.jpg")
-    Image.fromarray(data.astype(np.uint8)).show("origin")
 
-    last = img_contrast(data,reverse)
-    Image.fromarray(last.astype(np.uint8)).show("last")
+    newdata = img_contrast(data,reverse)
+
+    plt.subplot(1,2,1)
+    plt.title("origin")
+    plt.imshow(data, cmap=plt.get_cmap('gray'))
+
+    plt.subplot(1,2,2)
+    plt.title("reverse")
+    plt.imshow(newdata, cmap=plt.get_cmap('gray'))
+    plt.show()
 
 def pic_contrast_test2():
     data = get_image_data("../pic/lena.jpg")
-    Image.fromarray(data.astype(np.uint8)).show("origin")
+    newdata = img_contrast(data,contrast_enhance)
 
-    last = img_contrast(data,contrast_enhance)
-    Image.fromarray(last.astype(np.uint8)).show("last")
+    plt.subplot(1,2,1)
+    plt.title("origin")
+    plt.imshow(data, cmap=plt.get_cmap('gray'))
+
+    plt.subplot(1,2,2)
+    plt.title("locale_nhance")
+    plt.imshow(newdata, cmap=plt.get_cmap('gray'))
+    plt.show()
 
 
 def DRC_test():
     data = get_image_data("../pic/lena.jpg")
-    Image.fromarray(data.astype(np.uint8)).show("origin")
+    newdata = img_contrast2(data,DRC,c=3)
 
-    last = img_contrast2(data,DRC,c=3)
-    Image.fromarray(last.astype(np.uint8)).show("last")
+    plt.subplot(1,2,1)
+    plt.title("origin")
+    plt.imshow(data, cmap=plt.get_cmap('gray'))
+
+    plt.subplot(1,2,2)
+    plt.title("DRC")
+    plt.imshow(newdata, cmap=plt.get_cmap('gray'))
+    plt.show()
 
 def gama_correct_test():
     data = get_image_data("../pic/lena.jpg")
-    Image.fromarray(data.astype(np.uint8)).show("origin")
+    newdata = img_contrast3(data,gama_correct,c=3,r=2.5)
 
-    last = img_contrast3(data,gama_correct,c=3,r=2.5)
-    Image.fromarray(last.astype(np.uint8)).show("last")
+    plt.subplot(1,2,1)
+    plt.title("origin")
+    plt.imshow(data, cmap=plt.get_cmap('gray'))
+
+    plt.subplot(1,2,2)
+    plt.title("gama_correct")
+    plt.imshow(newdata, cmap=plt.get_cmap('gray'))
+    plt.show()
 
 if __name__ == '__main__':
     pic_contrast_test()

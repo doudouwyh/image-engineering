@@ -1,15 +1,10 @@
 '''
     hist enhance
 '''
-from PIL import Image
-import numpy as np
-
-
-def get_image_data(filename):
-    im = Image.open(filename)
-    data = im.getdata()
-    data = np.array(data,'float').reshape(im.size)
-    return data
+import matplotlib.pyplot as plt
+import sys
+sys.path.append("..")
+from common.common import *
 
 def get_counts(img):
     counts = {}
@@ -130,33 +125,52 @@ def hist_spec_GML(image,dest):
 
 def hist_spec_SML_test():
     data = get_image_data("../pic/lena.jpg")
-    Image.fromarray(data.astype(np.uint8)).show("origin")
 
     spec = {80:0.2,160:0.6,240:0.2}
     newdata = hist_spec_SML(data,spec)
-    Image.fromarray(newdata.astype(np.uint8)).show("last")
+
+    plt.subplot(1,2,1)
+    plt.title("origin")
+    plt.imshow(data, cmap=plt.get_cmap('gray'))
+
+    plt.subplot(1,2,2)
+    plt.title("SML")
+    plt.imshow(newdata, cmap=plt.get_cmap('gray'))
+    plt.show()
 
 def hist_spec_GML_test():
     data = get_image_data("../pic/lena.jpg")
-    Image.fromarray(data.astype(np.uint8)).show("origin")
 
     spec = {80:0.2,160:0.6,240:0.2}
     newdata = hist_spec_GML(data,spec)
-    Image.fromarray(newdata.astype(np.uint8)).show("last")
+
+    plt.subplot(1,2,1)
+    plt.title("origin")
+    plt.imshow(data, cmap=plt.get_cmap('gray'))
+
+    plt.subplot(1,2,2)
+    plt.title("GML")
+    plt.imshow(newdata, cmap=plt.get_cmap('gray'))
+    plt.show()
 
 
 def hist_enhance_test():
     data = get_image_data("../pic/lena.jpg")
-    Image.fromarray(data.astype(np.uint8)).show("origin")
-
-
     newdata = hist_enhance(data)
-    Image.fromarray(newdata.astype(np.uint8)).show("last")
+
+    plt.subplot(1,2,1)
+    plt.title("origin")
+    plt.imshow(data, cmap=plt.get_cmap('gray'))
+
+    plt.subplot(1,2,2)
+    plt.title("histenhance")
+    plt.imshow(newdata, cmap=plt.get_cmap('gray'))
+    plt.show()
 
 
 
 if __name__ == '__main__':
     hist_enhance_test()
-    hist_spec_SML_test()
-    hist_spec_GML_test()
+    # hist_spec_SML_test()
+    # hist_spec_GML_test()
 
