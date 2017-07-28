@@ -40,12 +40,14 @@ def hist_spec_SML(image,dest):
     keys = counts.keys()
     size = len(keys)
 
+    #pdf
     destkeys = np.copy(keys)
     destvalues = np.zeros(len(keys))
     for k in range(len(destkeys)):
         if  destkeys[k] in dest:
             destvalues[k] = dest[destkeys[k]]
 
+    #cdf
     srccdf = getcdf(counts.values())
     destcdf = getcdf(destvalues)
 
@@ -54,21 +56,19 @@ def hist_spec_SML(image,dest):
         for y in range(size):
             srcmin[y,x] = srccdf[x] - destcdf[y]
 
-    print srcmin
-
     specmap = {}
     for x in range(size):
         miny = 0
-        minv = srcmin[0,x]
+        minv = abs(srcmin[0,x])
         for y in range(1,size):
-            if minv > srcmin[y,x]:
-                minv = srcmin[y,x]
+            if minv > abs(srcmin[y,x]):
+                minv = abs(srcmin[y,x])
                 miny = y
-        specmap[y] = miny
 
+        specmap[keys[x]] = keys[miny]
 
     newdata = np.zeros(image.shape)
-    width,height = image.shape
+    height,width = image.shape
     for i in range(width):
         for j in range(height):
             newdata[i,j] = specmap[int(image[i,j])]
@@ -78,82 +78,62 @@ def hist_spec_SML(image,dest):
 def hist_spec_GML(image,dest):
     counts = get_counts(image)
     keys = counts.keys()
-    size = len(keys)-1
+    sizesrc = len(keys)
 
-    destkeys = np.copy(keys)
-    destvalues = []
-    for k in destkeys:
-        if  k in dest:
-            destvalues[k] = dest[k]
-        else:
-            destvalues[k] = 0
+    destkeys = dest.keys()
+    sizedest   =  len(destkeys)
 
+    #cdf
     srccdf = getcdf(counts.values())
-    destcdf = getcdf(destvalues)
+    destcdf = getcdf(dest.values())
 
-    srcmin = np.array([0.0]*size**2).reshape(size,size)
-    for x in range(size):
-        for y in range(size):
-            srcmin[y,x] = srccdf[x] - destcdf[y]
+    srcmin = np.array([0.0]*sizesrc*sizedest).reshape(sizesrc,sizedest)
+    for x in range(sizedest):
+        for y in range(sizesrc):
+            srcmin[y,x] = destcdf[x] - srccdf[y]
 
     specmap = {}
-    laststarty = 0
-    lastendy = 0
     starty = 0
-    endy = 0
-    for x in range(size):
-        minv = srcmin[x,0]
-        for y in range(1,size):
-            if minv > srcmin[x,y]:
-                minv = srcmin[x,y]
+    endy  = 0
+    for x in range(sizedest):
+        minv = abs(srcmin[0,x])
+        for y in range(1,sizesrc):
+            if  minv > abs(srcmin[y,x]):
+                minv = abs(srcmin[y,x])
                 endy = y
 
-        if starty != laststarty or endy != lastendy:
-            for i in range(starty,endy):
-                specmap[i] = x
-            laststarty = starty
-            lastendy = endy
-            starty = lastendy + 1
+        for i in range(starty,endy+1):
+            specmap[keys[i]] = destkeys[x]
+        starty = endy+1
 
     newdata = np.zeros(image.shape)
-    width,height = image.shape
+    height,width = image.shape
     for i in range(width):
         for j in range(height):
-            newdata[i,j] = specmap[image[i,j]]
+            newdata[i,j] = specmap[int(image[i,j])]
 
     return newdata
 
-
-def hist_spec_SML_test():
+def hist_spec_test():
     data = get_image_data("../pic/lena.jpg")
 
-    spec = {80:0.2,160:0.6,240:0.2}
-    newdata = hist_spec_SML(data,spec)
+    spec = {80:0.2,160:0.6,251:0.2}
+    smldata = hist_spec_SML(data,spec)
+    gmldata = hist_spec_GML(data,spec)
 
-    plt.subplot(1,2,1)
+    plt.subplot(1,3,1)
     plt.title("origin")
     plt.imshow(data, cmap=plt.get_cmap('gray'))
 
-    plt.subplot(1,2,2)
+    plt.subplot(1,3,2)
     plt.title("SML")
-    plt.imshow(newdata, cmap=plt.get_cmap('gray'))
-    plt.show()
+    plt.imshow(smldata, cmap=plt.get_cmap('gray'))
 
-def hist_spec_GML_test():
-    data = get_image_data("../pic/lena.jpg")
-
-    spec = {80:0.2,160:0.6,240:0.2}
-    newdata = hist_spec_GML(data,spec)
-
-    plt.subplot(1,2,1)
-    plt.title("origin")
-    plt.imshow(data, cmap=plt.get_cmap('gray'))
-
-    plt.subplot(1,2,2)
+    plt.subplot(1,3,3)
     plt.title("GML")
-    plt.imshow(newdata, cmap=plt.get_cmap('gray'))
-    plt.show()
+    plt.imshow(gmldata, cmap=plt.get_cmap('gray'))
 
+    plt.show()
 
 def hist_enhance_test():
     data = get_image_data("../pic/lena.jpg")
@@ -169,9 +149,8 @@ def hist_enhance_test():
     plt.show()
 
 
-
 if __name__ == '__main__':
     # hist_enhance_test()
-     hist_spec_SML_test()
-    # hist_spec_GML_test()
+     hist_spec_test()
+
 
