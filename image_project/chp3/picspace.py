@@ -16,8 +16,8 @@ def conv(image,x,y,template):
     h,w = template.shape
     c = []
     count = 0
-    for i in range(x-w/2,x+w/2+1):
-        for j in range(y-h/2,y+h/2+1):
+    for i in range(x-h/2,x+h/2+1):
+        for j in range(y-w/2,y+w/2+1):
             if i<0 or i > 255 or j<0 or j>255:
                 c.append(0)
             else:
@@ -31,8 +31,8 @@ def get_median(image,x,y,N):
     w = h = N
     c = []
     count = 0
-    for i in range(x-w/2,x+w/2+1):
-        for j in range(y-h/2,y+h/2+1):
+    for i in range(x-h/2,x+h/2+1):
+        for j in range(y-w/2,y+w/2+1):
             if i<0 or j<0 or i > 255 or j > 255:
                 continue
             else:
@@ -48,8 +48,8 @@ def get_percent(image,x,y,N,percent):
     w = h = N
     c = []
     count = 0
-    for i in range(x-w/2,x+w/2+1):
-        for j in range(y-h/2,y+h/2+1):
+    for i in range(x-h/2,x+h/2+1):
+        for j in range(y-w/2,y+w/2+1):
             if i < 0 or j < 0 or i > 255 or j > 255:
                 continue
             else:
@@ -67,8 +67,8 @@ def get_min_max_nearest(image,x,y,N):
     w = h = N
     c = []
     count = 0
-    for i in range(x-w/2,x+w/2+1):
-        for j in range(y-h/2,y+h/2+1):
+    for i in range(x-h/2,x+h/2+1):
+        for j in range(y-w/2,y+w/2+1):
             if i<0 or j<0 or i > 255 or j > 255:
                 continue
             else:
@@ -83,8 +83,8 @@ def get_min_max_nearest(image,x,y,N):
 def template_conv(image,template):
     height,width = image.shape
     newdata = np.zeros(image.shape)
-    for i in range(width):
-        for j in range(height):
+    for i in range(height):
+        for j in range(width):
             newdata[i,j],count = conv(image,i,j,template)
             if newdata[i,j] < 0:
                 newdata[i,j] = 0
@@ -97,8 +97,8 @@ def template_conv(image,template):
 def linear_filter(image,template,flag):
     height,width = image.shape
     newdata = np.zeros(image.shape)
-    for i in range(width):
-        for j in range(height):
+    for i in range(height):
+        for j in range(width):
             newdata[i,j],count = conv(image,i,j,template)
             if flag == 1:
                 newdata[i,j] /= (count*1.0)
@@ -149,8 +149,8 @@ def median_filter(image, N):
     height,width = image.shape
     newdata = np.zeros(image.shape)
 
-    for i in range(width):
-        for j in range(height):
+    for i in range(height):
+        for j in range(width):
             newdata[i,j] = get_median(image,i,j,N)
 
     return newdata
@@ -159,8 +159,8 @@ def percent_filter(image,N, percent):
     width,height = image.shape
     newdata = np.zeros(image.shape)
 
-    for i in range(width):
-        for j in range(height):
+    for i in range(height):
+        for j in range(width):
             newdata[i,j] = get_percent(image,i,j,N,percent)
 
     return newdata
@@ -170,8 +170,8 @@ def min_max_sharpen_filter(image,N):
     height,width = image.shape
     newdata = np.zeros(image.shape)
 
-    for i in range(width):
-        for j in range(height):
+    for i in range(height):
+        for j in range(width):
             newdata[i,j] = get_min_max_nearest(image,i,j,N)
 
     return newdata
@@ -195,8 +195,8 @@ def hist_local_enhance(image,N):
     newdata = np.zeros(image.shape)
     nw = width / N
     nh = height / N
-    for i in range(nw):
-        for j in range(nh):
+    for i in range(nh):
+        for j in range(nw):
             sub = hist_enhance(image[i*N:i*N+(N-1), j*N:j*N+(N-1)])
             newdata[i*N:i*N+(N-1), j*N:j*N+(N-1)] = sub
 
@@ -209,10 +209,9 @@ def mean_variance_local_enhance(image,k,l,E):
     newdata = np.zeros(image.shape)
 
     M,S = get_mean_variance(image.reshape(1,width*height).tolist()[0])
-    print "M,S:",M,S
 
-    for i in range(width):
-        for j in range(height):
+    for i in range(height):
+        for j in range(width):
             nb = get_neighbor_data(image,i,j)
             mean,var = get_mean_variance(nb)
             if k*mean >= M and var <= l*S:
@@ -327,14 +326,12 @@ def hybrid_filter_test():
 
 def local_enhance_test():
     data = get_image_data("../pic/lena.jpg")
-    print data
 
     #hist local enhance
     hle = hist_local_enhance(data,64)
 
     #mean variance local enhance
     mvle = mean_variance_local_enhance(data,1.5,1.5,2)
-    print mvle
 
     plt.subplot(1,3,1)
     plt.title("origin")

@@ -17,9 +17,9 @@ def Butterworth_high_pass_filter_test():
     d0 = 30
     fft_shift_high = np.copy(fft_shift)
     h,w = fft_shift_high.shape
-    for i in range(w):
-        for j in range(h):
-            d = np.sqrt((i-w/2)**2 + (j-h/2)**2)
+    for i in range(h):
+        for j in range(w):
+            d = np.sqrt((i-h/2)**2 + (j-w/2)**2)
             if d == 0:
                 continue
             hf = 1/(1+(d0/d)**(2*n))
@@ -57,9 +57,9 @@ def high_enhance_filter_test():
     d0 = 30
     fft_shift_high = np.copy(fft_shift)
     h,w = fft_shift_high.shape
-    for i in range(w):
-        for j in range(h):
-            d = np.sqrt((i-w/2)**2 + (j-h/2)**2)
+    for i in range(h):
+        for j in range(w):
+            d = np.sqrt((i-h/2)**2 + (j-w/2)**2)
             if d == 0:
                 continue
             hf = 1/(1+(d0/d)**(2*n))           #Batterworth
@@ -95,9 +95,9 @@ def high_lifting_filter_test():
     d0 = 30
     fft_shift_high = np.copy(fft_shift)
     h,w = fft_shift_high.shape
-    for i in range(w):
-        for j in range(h):
-            d = np.sqrt((i-w/2)**2 + (j-h/2)**2)
+    for i in range(h):
+        for j in range(w):
+            d = np.sqrt((i-h/2)**2 + (j-w/2)**2)
             if d == 0:
                 continue
             hf = 1/(1+(d0/d)**(2*n))           # Batterworth
@@ -134,9 +134,9 @@ def  ladder_shaped_high_pass_filter_test():
     df = 20
     fft_shift_high = np.copy(fft_shift)
     h,w = fft_shift_high.shape
-    for i in range(w):
-        for j in range(h):
-            d = np.sqrt((i-w/2)**2 + (j-h/2)**2)
+    for i in range(h):
+        for j in range(w):
+            d = np.sqrt((i-h/2)**2 + (j-w/2)**2)
             if d <= d0:
                 hf = 0
             elif df > d > d0:
@@ -174,9 +174,9 @@ def index_high_pass_filter_test():
     d0 = 30
     fft_shift_high = np.copy(fft_shift)
     h, w = fft_shift_high.shape
-    for i in range(w):
-        for j in range(h):
-            d = np.sqrt((i - w / 2) ** 2 + (j - h / 2) ** 2)
+    for i in range(h):
+        for j in range(w):
+            d = np.sqrt((i - h / 2) ** 2 + (j - w / 2) ** 2)
             hf = 1 - np.exp(- (d / d0) ** n)
             fft_shift_high[i, j] = hf * fft_shift_high[i, j]
 
@@ -200,8 +200,8 @@ def index_high_pass_filter_test():
     plt.show()
 
 if __name__ == '__main__':
-    # Butterworth_high_pass_filter_test()
-    # high_enhance_filter_test()
-    # high_lifting_filter_test()
-    # ladder_shaped_high_pass_filter_test()
+    Butterworth_high_pass_filter_test()
+    high_enhance_filter_test()
+    high_lifting_filter_test()
+    ladder_shaped_high_pass_filter_test()
     index_high_pass_filter_test()

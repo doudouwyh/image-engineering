@@ -9,8 +9,8 @@ from common.common import *
 def get_counts(img):
     counts = {}
     width,height = img.shape
-    for i in range(width):
-        for j in range(height):
+    for i in range(height):
+        for j in range(width):
             counts.setdefault(img[i,j],0)
             counts[img[i,j]] += 1
     return counts
@@ -150,7 +150,7 @@ def hist_enhance_test():
 
 
 if __name__ == '__main__':
-    # hist_enhance_test()
-     hist_spec_test()
+     hist_enhance_test()
+    # hist_spec_test()
 
 

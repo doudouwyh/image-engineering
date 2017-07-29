@@ -34,7 +34,7 @@ def tranfser_test():
     tm = np.matrix('1 0 50; 0 1 50; 0 0 1')
 
     #origin area:
-    #x: 50-80,y:50-80
+    #y: 50-80,x:50-80
     for i in range(50,81):
         for j in range(50,81):
             x, y = coordinate_transfer(i, j, tm)
@@ -59,8 +59,8 @@ def scaling_test():
     new_data = np.zeros((2*width,2*height))
     sm = np.matrix('2 0 1; 0 2 1; 0 0 1')
 
-    for i in range(width):
-        for j in range(height):
+    for i in range(height):
+        for j in range(width):
             x, y = coordinate_scaling(i, j, sm)
             new_data[x,y] = data[i,j]
 
@@ -105,8 +105,8 @@ def cut_test():
     cmx = np.matrix('1 0 0; 0.5 1 0; 0 0 1')
     cmy = np.matrix('1 0.5 0; 0 1 0; 0 0 1')
 
-    for i in range(width):
-        for j in range(height):
+    for i in range(height):
+        for j in range(width):
             x, y = coordinate_cut(i, j, cmx)
             if x < width and y < height:
                 new_data_x[x, y] = data[i, j]

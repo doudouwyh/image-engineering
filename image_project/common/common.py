@@ -25,6 +25,33 @@ def get_neighbor_data(image,x,y):
                 nb.append(image[i,j])
     return nb
 
+#templatesize: N*N
+def get_template_cover_data(image,x,y,N):
+    c = []
+    count = 0
+    for i in range(x - N / 2, x + N / 2 + 1):
+        for j in range(y - N / 2, y + N / 2 + 1):
+            if i < 0 or i > 255 or j < 0 or j > 255:
+                c.append(0)
+            else:
+                c.append(image[i,j])
+                count += 1
+    return c, count
+
+# for multiply
+#templatesize: N*N
+def get_template_cover_data2(image,x,y,N):
+    c = []
+    count = 0
+    for i in range(x - N / 2, x + N / 2 + 1):
+        for j in range(y - N / 2, y + N / 2 + 1):
+            if i < 0 or i > 255 or j < 0 or j > 255:
+                c.append(1)
+            else:
+                c.append(image[i,j])
+                count += 1
+    return c, count
+
 def get_mean_variance(a):
     mean = np.sum(a)/len(a)
     var = 0

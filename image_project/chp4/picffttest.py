@@ -23,8 +23,8 @@ def fft_test():
 
     fft_shift_high = np.copy(fft_shift)
     h,w = fft_shift_high.shape
-    for i in range(w):
-        for j in range(h):
+    for i in range(h):
+        for j in range(w):
             d = np.sqrt((i-w/2)**2 + (j-h/2)**2)
             if  d <= 5:
                 fft_shift_high[i,j] = 1
@@ -40,8 +40,8 @@ def fft_test():
 
     fft_shift_low = np.copy(fft_shift)
     h,w = fft_shift_low.shape
-    for i in range(w):
-        for j in range(h):
+    for i in range(h):
+        for j in range(w):
             d = np.sqrt((i-w/2)**2 + (j-h/2)**2)
             if  d >= 20:
                 fft_shift_low[i,j] = 1
@@ -59,8 +59,8 @@ def fft_test():
 
     fft_shift_band = np.copy(fft_shift)
     h,w = fft_shift_band.shape
-    for i in range(w):
-        for j in range(h):
+    for i in range(h):
+        for j in range(w):
             d = np.sqrt((i-w/2)**2 + (j-h/2)**2)
             if 20 <= d <= 30:
                 fft_shift_band[i,j] = 1

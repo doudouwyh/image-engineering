@@ -40,8 +40,8 @@ def gama_correct(x,c,r):
 def img_contrast(img,fun):
     newdata = np.zeros(img.shape)
     width,height = img.shape
-    for i in range(width):
-        for j in range(height):
+    for i in range(height):
+        for j in range(width):
             newdata[i,j] = fun(img[i,j])
     return newdata
 
@@ -49,16 +49,16 @@ def img_contrast(img,fun):
 def img_contrast2(img,fun,c):
     newdata = np.zeros(img.shape)
     width,height = img.shape
-    for i in range(width):
-        for j in range(height):
+    for i in range(height):
+        for j in range(width):
             newdata[i,j] = fun(img[i,j],c)
     return newdata
 
 def img_contrast3(img,fun,c,r):
     newdata = np.zeros(img.shape)
     height,width = img.shape
-    for i in range(width):
-        for j in range(height):
+    for i in range(height):
+        for j in range(width):
             newdata[i,j] = fun(img[i,j],c,r)
     return newdata
 
@@ -118,8 +118,8 @@ def gama_correct_test():
     plt.show()
 
 if __name__ == '__main__':
-    #pic_contrast_test()
+    # pic_contrast_test()
     # pic_contrast_test2()
     # DRC_test()
-     gama_correct_test()
+      gama_correct_test()
 

@@ -11,8 +11,8 @@ def add_noise(data,noise):
     assert(data.shape == noise.shape)
     newdata = np.zeros(data.shape)
     height,width = data.shape
-    for i in range(width):
-        for j in range(height):
+    for i in range(height):
+        for j in range(width):
             newdata[i,j] = data[i,j]+noise[i,j]
             if newdata[i,j] > 255:
                 newdata[i,j] = 255
@@ -22,8 +22,8 @@ def image_sub(imag1,imag2):
     assert imag1.shape == imag2.shape
     newdata = np.zeros(imag1.shape)
     height, width = imag1.shape
-    for i in range(width):
-        for j in range(height):
+    for i in range(height):
+        for j in range(width):
             newdata[i,j] = imag2[i,j] - imag1[i,j]
             if newdata[i,j] < 0:
                 newdata[i,j] = 0
@@ -33,8 +33,8 @@ def image_div(imag1,imag2):
     assert imag1.shape == imag2.shape
     newdata = np.zeros(imag1.shape)
     height, width = imag1.shape
-    for i in range(width):
-        for j in range(height):
+    for i in range(height):
+        for j in range(width):
             if imag1[i,j] == 0:
                 newdata[i,j] = imag2[i,j]
             else:
@@ -50,8 +50,8 @@ def image_mul(imag1,imag2):
     assert imag1.shape == imag2.shape
     newdata = np.zeros(imag1.shape)
     height,width = imag1.shape
-    for i in range(width):
-        for j in range(height):
+    for i in range(height):
+        for j in range(width):
             newdata[i,j] = imag1[i,j]*imag2[i,j]
             if newdata[i,j] > 255:
                 newdata[i,j] = 255
@@ -61,8 +61,8 @@ def image_mul2(imag1,c):
     assert (c>0)
     newdata = np.zeros(imag1.shape)
     height,width = imag1.shape
-    for i in range(width):
-        for j in range(height):
+    for i in range(height):
+        for j in range(width):
             newdata[i,j] = imag1[i,j]*c
             if newdata[i,j] > 255:
                 newdata[i,j] = 255
