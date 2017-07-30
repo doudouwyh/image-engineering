@@ -11,20 +11,6 @@ def coordinate_transfer(xorigin,yorigin,transmatrix):
     newcord = np.asarray(np.dot(transmatrix, (np.matrix([xorigin, yorigin, 1]).T)))
     return int(newcord[0]),int(newcord[1])
 
-def coordinate_scaling(xorigin,yorigin,scalmatrix):
-    newcord = np.asarray(np.dot(scalmatrix, (np.matrix([xorigin, yorigin, 1]).T)))
-    return int(newcord[0]),int(newcord[1])
-
-def coordinate_roate(xorigin,yorigin,roatematrix):
-    newcord = np.asarray(np.dot(roatematrix, (np.matrix([xorigin, yorigin, 1]).T)))
-    return int(newcord[0]),int(newcord[1])
-
-def coordinate_cut(xorigin,yorigin,cutmatrix):
-    newcord = np.asarray(np.dot(cutmatrix, (np.matrix([xorigin, yorigin, 1]).T)))
-    return int(newcord[0]),int(newcord[1])
-
-
-
 def tranfser_test():
     data = get_image_data("../pic/lena.jpg")
 
@@ -61,7 +47,7 @@ def scaling_test():
 
     for i in range(height):
         for j in range(width):
-            x, y = coordinate_scaling(i, j, sm)
+            x,y = coordinate_transfer(i, j, sm)
             new_data[x,y] = data[i,j]
 
     plt.subplot(1,2,1)
@@ -83,7 +69,7 @@ def rotate_test():
 
     for i in range(101,157):
         for j in range(101,157):
-            x, y = coordinate_roate(i, j, rm)
+            x,y = coordinate_transfer(i, j, rm)
             new_data[x,y] = data[i,j]
 
     plt.subplot(1,2,1)
@@ -107,14 +93,13 @@ def cut_test():
 
     for i in range(height):
         for j in range(width):
-            x, y = coordinate_cut(i, j, cmx)
-            if x < width and y < height:
-                new_data_x[x, y] = data[i, j]
+            y,x = coordinate_transfer(i, j, cmx)
+            if 0 < x < width and 0 < y < height:
+                new_data_x[y, x] = data[i, j]
 
-            x, y = coordinate_cut(i, j, cmy)
-            if x < width and y < height:
-                new_data_y[x, y] = data[i, j]
-
+            y,x = coordinate_transfer(i, j, cmy)
+            if 0 < x < width and 0 < y < height:
+                new_data_y[y, x] = data[i, j]
 
     plt.subplot(1,3,1)
     plt.title("origin")
@@ -131,8 +116,8 @@ def cut_test():
 
 
 if __name__ == '__main__':
-    #tranfser_test()
-    #scaling_test()
-    #rotate_test()
-     cut_test()
+    tranfser_test()
+    scaling_test()
+    rotate_test()
+    cut_test()
 
