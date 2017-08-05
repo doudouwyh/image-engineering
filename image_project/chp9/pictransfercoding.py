@@ -65,10 +65,10 @@ def DCT_test():
     plt.title('dct')
     plt.imshow(cdata, cmap=plt.get_cmap('gray'))
 
-    idata = IDCT(cdata)
-    plt.subplot(1, 3, 3)
-    plt.title('idct')
-    plt.imshow(idata, cmap=plt.get_cmap('gray'))
+    # idata = IDCT(cdata)
+    # plt.subplot(1, 3, 3)
+    # plt.title('idct')
+    # plt.imshow(idata, cmap=plt.get_cmap('gray'))
 
     plt.show()
 
