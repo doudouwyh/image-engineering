@@ -38,11 +38,66 @@ def similarty_transfer_test():
     plt.show()
 
 def  isometric_transfer_test():
-    pass
+
+    data = get_image_data("../pic/lena.jpg")
+    h,w = data.shape
+
+    e = 1
+    theta = np.pi/2
+    tx = 2
+    ty = 0
+
+    t = np.array([[e*np.cos(theta), np.sin(theta),tx],[-e*np.sin(theta),np.cos(theta),ty],[0,0,1]])
+    am = np.matrix(t)
+
+    newdata = np.zeros(data.shape)
+    for i in range(h):
+        for j in range(w):
+            y,x = coordinate_transfer(i,j,am)
+            if 0 < y < h and 0 < x < w:
+                newdata[y,x] = data[i,j]
+
+    plt.subplot(1, 2, 1)
+    plt.title('origin')
+    plt.imshow(data, cmap=plt.get_cmap('gray'))
+
+    plt.subplot(1, 2, 2)
+    plt.title('isometric_transfer')
+    plt.imshow(newdata, cmap=plt.get_cmap('gray'))
+
+    plt.show()
+
 
 def Euclidean_transfer():
-    pass
+
+    data = get_image_data("../pic/lena.jpg")
+    h,w = data.shape
+
+    theta = np.pi/2
+    tx = 2
+    ty = 0
+
+    t = np.array([[np.cos(theta), np.sin(theta),tx],[-np.sin(theta),np.cos(theta),ty],[0,0,1]])
+    am = np.matrix(t)
+
+    newdata = np.zeros(data.shape)
+    for i in range(h):
+        for j in range(w):
+            y,x = coordinate_transfer(i,j,am)
+            if 0 < y < h and 0 < x < w:
+                newdata[y,x] = data[i,j]
+
+    plt.subplot(1, 2, 1)
+    plt.title('origin')
+    plt.imshow(data, cmap=plt.get_cmap('gray'))
+
+    plt.subplot(1, 2, 2)
+    plt.title('euclidean_transfer')
+    plt.imshow(newdata, cmap=plt.get_cmap('gray'))
+
+    plt.show()
 
 if __name__ == '__main__':
-    similarty_transfer_test()
-
+    # similarty_transfer_test()
+    # isometric_transfer_test()
+    Euclidean_transfer()

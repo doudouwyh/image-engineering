@@ -8,7 +8,7 @@ sys.path.append("..")
 from common.common import *
 
 def fft_test():
-    data = get_image_data("../pic/lena.jpg")
+    data = get_image_data("../pic/mosquitto-16x16.png")
 
     plt.subplot(2,4,1)
     plt.title('origin')
@@ -79,5 +79,45 @@ def fft_test():
     plt.show()
 
 
+def get_cumsum(image,y,x):
+    h,w = image.shape
+    sum = 0.0
+    for i in range(h):
+        for j in range(w):
+            sum += image[y,x] * np.exp(-2*np.pi*(y*i+x*j)/h *1j)
+    return sum/h
+
+def dft_test():
+    data = get_image_data("../pic/mosquitto-16x16.png")
+
+    ft = np.zeros(data.shape)
+    h,w = data.shape
+    for i in range(h):
+        for j in range(w):
+            ft[i,j] = get_cumsum(data,i,j)
+            if np.abs(ft[i,j]) == 0:
+                ft[i,j] = 1
+
+    plt.subplot(1,4,1)
+    plt.title('origin')
+    plt.imshow(data,cmap = plt.get_cmap('gray'))
+
+    plt.subplot(1, 4, 2)
+    plt.title('ft')
+    plt.imshow(np.log(np.abs(ft)),cmap = plt.get_cmap('gray'))
+
+    plt.subplot(1, 4, 3)
+    fft_shift = np.fft.fftshift(ft)
+    plt.title('ftshift')
+    plt.imshow(np.log(np.abs(fft_shift)),cmap = plt.get_cmap('gray'))
+
+    plt.subplot(1, 4, 4)
+    ifft = np.fft.ifft2(fft_shift)
+    plt.title('ifft')
+    plt.imshow(np.log(np.abs(ifft)),cmap = plt.get_cmap('gray'))
+
+    plt.show()
+
 if __name__ == '__main__':
-    fft_test()
+    # fft_test()
+    dft_test()
